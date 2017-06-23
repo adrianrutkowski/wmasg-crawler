@@ -1,0 +1,30 @@
+{
+  "name": "wmasg-crawler",
+  "version": "0.0.1",
+  "description": "Crawler service for searching particular items in WMASG consignment",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adrianrutkowski/wmasg-crawler.git"
+  },
+  "keywords": [
+    "crawler",
+    "service",
+    "search",
+    "wmasg",
+    "asg",
+    "consignment"
+  ],
+  "author": "Adrian Rutkowski",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/adrianrutkowski/wmasg-crawler/issues"
+  },
+  "homepage": "https://github.com/adrianrutkowski/wmasg-crawler#readme",
+  "engines" : {
+    "node" : "8.1.2"
+  }
+}
