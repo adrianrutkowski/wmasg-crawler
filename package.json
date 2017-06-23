@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "ava --verbose"
   },
   "repository": {
     "type": "git",
@@ -25,7 +25,10 @@
     "url": "https://github.com/adrianrutkowski/wmasg-crawler/issues"
   },
   "homepage": "https://github.com/adrianrutkowski/wmasg-crawler#readme",
-  "engines" : {
-    "node" : "8.1.2"
+  "engines": {
+    "node": "8.1.2"
+  },
+  "devDependencies": {
+    "ava": "^0.19.1"
   }
 }
