@@ -5,8 +5,14 @@ const test = require('ava').test;
 const createHuntsmanProxy = () => {
   const huntsman = {};
 
-  huntsman.spider = sinon.stub().returns({});
   huntsman.extension = sinon.stub().returnsArg(0);
+
+  huntsman.spider = sinon.stub().returns({
+    start: sinon.stub(),
+    queue: {
+      add: sinon.stub()
+    }
+  });
 
   return huntsman;
 }
@@ -34,4 +40,14 @@ test('setup spider extensions', t => {
 test('keep site url', t => {
   const spider = new t.context.WMASGSpider();
   t.true(spider.url === 'http://wmasg.pl/pl/consignment');
+});
+
+test('start spider', t => {
+  const spider = new t.context.WMASGSpider();
+
+  spider.start();
+
+  t.true(spider.spider.queue.add.calledOnce);
+  t.true(spider.spider.queue.add.calledWith(spider.url));
+  t.true(spider.spider.start.calledOnce);
 });

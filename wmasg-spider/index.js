@@ -10,6 +10,11 @@ class WMASGSpider {
       huntsman.extension('cheerio')
     ];
   }
+
+  start() {
+    this.spider.queue.add(this.url);
+    this.spider.start();
+  }
 }
 
 module.exports = WMASGSpider;
