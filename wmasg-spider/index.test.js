@@ -11,7 +11,9 @@ const createHuntsmanProxy = () => {
     start: sinon.stub(),
     queue: {
       add: sinon.stub()
-    }
+    },
+    on: sinon.stub(),
+    match: sinon.stub(),
   });
 
   return huntsman;
@@ -19,7 +21,13 @@ const createHuntsmanProxy = () => {
 
 test.beforeEach(t => {
   t.context.huntsman = createHuntsmanProxy();
-  t.context.WMASGSpider = proxyquire('./', { huntsman: t.context.huntsman });
+  t.context.extractLinks = {
+    extractor: sinon.stub()
+  }
+  t.context.WMASGSpider = proxyquire('./', {
+    huntsman: t.context.huntsman,
+    'huntsman/lib/link': t.context.extractLinks
+  });
 })
 
 test('create and store huntsman spider instance', t => {
@@ -32,9 +40,8 @@ test('create and store huntsman spider instance', t => {
 test('setup spider extensions', t => {
   const spider = new t.context.WMASGSpider();
 
-  t.true(t.context.huntsman.extension.calledWith('recurse'));
   t.true(t.context.huntsman.extension.calledWith('cheerio'));
-  t.deepEqual(spider.spider.extensions, ['recurse', 'cheerio']);
+  t.deepEqual(spider.spider.extensions, ['cheerio']);
 });
 
 test('keep site url', t => {
@@ -50,4 +57,17 @@ test('start spider', t => {
   t.true(spider.spider.queue.add.calledOnce);
   t.true(spider.spider.queue.add.calledWith(spider.url));
   t.true(spider.spider.start.calledOnce);
+});
+
+test('handle consignment page', t => {
+  const spider = new t.context.WMASGSpider();
+  const result = { uri: 'http://foo.bar', body: 'Plain html body' };
+
+  t.context.extractLinks.extractor.returns([spider.url, 'http://other.url']);
+  spider.spider.match.returns(true);
+
+  spider.consignmentHandler(null, result);
+
+  t.true(spider.spider.queue.add.calledOnce);
+  t.true(spider.spider.queue.add.calledWith('http://other.url'));
 });
