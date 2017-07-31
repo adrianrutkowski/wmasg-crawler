@@ -5,10 +5,12 @@ class WMASGSpider {
   constructor() {
     this.url = 'http://wmasg.pl/pl/consignment';
     this.spider = huntsman.spider();
+    this.counter = 0;
 
     this.spider.extensions = [huntsman.extension('cheerio')];
 
     this.spider.on('/pl/consignment$', this.consignmentHandler.bind(this));
+    this.spider.on('page=\d*', this.consignmentPageHandler.bind(this));
     this.spider.on('/pl/consignment/show/', this.consignmentItemHandler.bind(this));
   }
 
@@ -17,7 +19,20 @@ class WMASGSpider {
     this.spider.start();
   }
 
+  getNumberOfPages(result) {
+    const $ = result.extension.cheerio;
+    return parseInt($('#pagination > a:nth-child(11)').text().trim());
+  }
+
   consignmentHandler(error, result) {
+    const numberOfPages = this.getNumberOfPages(result);
+
+    for (let i = 1; i <= numberOfPages; i++) {
+      this.spider.queue.add(this.url + `?page=${i}`);
+    }
+  }
+
+  consignmentPageHandler(error, result) {
     extractLinks(result.uri, result.body)
       .filter(link => this.spider.match(link) && link !== this.url)
       .forEach(link => this.spider.queue.add(link));

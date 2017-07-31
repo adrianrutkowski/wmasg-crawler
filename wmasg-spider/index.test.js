@@ -66,7 +66,7 @@ test('handle consignment page', t => {
   t.context.extractLinks.extractor.returns([spider.url, 'http://other.url']);
   spider.spider.match.returns(true);
 
-  spider.consignmentHandler(null, result);
+  spider.consignmentPageHandler(null, result);
 
   t.true(spider.spider.queue.add.calledOnce);
   t.true(spider.spider.queue.add.calledWith('http://other.url'));
