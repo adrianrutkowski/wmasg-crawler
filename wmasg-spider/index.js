@@ -25,10 +25,19 @@ class WMASGSpider {
 
   consignmentItemHandler(error, result) {
     const item = {
+      title: this.extractConsignmentItemTitle(result),
       description: this.extractConsignmentItemDescription(result)
     }
 
     console.log(item);
+  }
+
+  extractConsignmentItemTitle(result) {
+    const $ = result.extension.cheerio;
+
+    return $('#article .header h1')
+      .text()
+      .trim();
   }
 
   extractConsignmentItemDescription(result) {

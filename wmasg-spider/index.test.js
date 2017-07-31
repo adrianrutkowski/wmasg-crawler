@@ -71,3 +71,20 @@ test('handle consignment page', t => {
   t.true(spider.spider.queue.add.calledOnce);
   t.true(spider.spider.queue.add.calledWith('http://other.url'));
 });
+
+test('extract consignment item title', t => {
+  const titles = [
+    { provided: '   Title  ', expected: 'Title' },
+    { provided: 'Other title  ', expected: 'Other title' }
+  ];
+  const spider = new t.context.WMASGSpider();
+
+  for (let title of titles) {
+    const cheerio = sinon.stub()
+      .withArgs('#article .header h1')
+      .returns({ text: sinon.stub().returns(title.provided) });
+    const result = { extension: { cheerio } };
+
+    t.deepEqual(spider.extractConsignmentItemTitle(result), title.expected);
+  }
+});
