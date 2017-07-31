@@ -5,7 +5,6 @@ class WMASGSpider {
   constructor() {
     this.url = 'http://wmasg.pl/pl/consignment';
     this.spider = huntsman.spider();
-    this.counter = 0;
 
     this.spider.extensions = [huntsman.extension('cheerio')];
 
