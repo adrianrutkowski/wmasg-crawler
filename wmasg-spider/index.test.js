@@ -88,3 +88,20 @@ test('extract consignment item title', t => {
     t.deepEqual(spider.extractConsignmentItemTitle(result), title.expected);
   }
 });
+
+test('extract consignment item price', t => {
+  const prices = [
+    { provided: '     50.00 PLN', expected: 50 },
+    { provided: '42.42 PLN  ', expected: 42.42 }
+  ];
+  const spider = new t.context.WMASGSpider();
+
+  for (let price of prices) {
+    const cheerio = sinon.stub()
+      .withArgs('#article .common-table tr:nth-child(3) > td')
+      .returns({ text: sinon.stub().returns(price.provided) });
+    const result = { extension: { cheerio } };
+
+    t.deepEqual(spider.extractConsignmentItemPrice(result), price.expected);
+  }
+});

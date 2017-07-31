@@ -26,6 +26,7 @@ class WMASGSpider {
   consignmentItemHandler(error, result) {
     const item = {
       title: this.extractConsignmentItemTitle(result),
+      price: this.extractConsignmentItemPrice(result),
       description: this.extractConsignmentItemDescription(result)
     }
 
@@ -38,6 +39,15 @@ class WMASGSpider {
     return $('#article .header h1')
       .text()
       .trim();
+  }
+
+  extractConsignmentItemPrice(result) {
+    const $ = result.extension.cheerio;
+    const price = $('#article .common-table tr:nth-child(3) > td')
+      .text()
+      .trim();
+
+    return parseFloat(price);
   }
 
   extractConsignmentItemDescription(result) {
