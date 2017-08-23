@@ -1,8 +1,12 @@
+const EventEmitter = require('events');
+
 const huntsman = require('huntsman');
 const extractLinks = require('huntsman/lib/link').extractor;
 
-class WMASGSpider {
+class WMASGSpider extends EventEmitter {
   constructor() {
+    super();
+
     this.url = 'http://wmasg.pl/pl/consignment';
     this.spider = huntsman.spider();
 
@@ -24,6 +28,11 @@ class WMASGSpider {
   }
 
   consignmentHandler(error, result) {
+    if (error) {
+      this.emit('error', error);
+      return;
+    }
+
     const numberOfPages = this.getNumberOfPages(result);
 
     for (let i = 1; i <= numberOfPages; i++) {
@@ -32,19 +41,29 @@ class WMASGSpider {
   }
 
   consignmentPageHandler(error, result) {
+    if (error) {
+      this.emit('error', error);
+      return;
+    }
+
     extractLinks(result.uri, result.body)
       .filter(link => this.spider.match(link) && link !== this.url)
       .forEach(link => this.spider.queue.add(link));
   }
 
   consignmentItemHandler(error, result) {
+    if (error) {
+      this.emit('error', error);
+      return;
+    }
+
     const item = {
       title: this.extractConsignmentItemTitle(result),
       price: this.extractConsignmentItemPrice(result),
       description: this.extractConsignmentItemDescription(result)
     }
 
-    console.log(item);
+    this.emit('item', item);
   }
 
   extractConsignmentItemTitle(result) {
