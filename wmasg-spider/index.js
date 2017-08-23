@@ -15,11 +15,14 @@ class WMASGSpider extends EventEmitter {
     this.spider.on('/pl/consignment$', this.consignmentHandler.bind(this));
     this.spider.on('page=\d*', this.consignmentPageHandler.bind(this));
     this.spider.on('/pl/consignment/show/', this.consignmentItemHandler.bind(this));
+
+    this.spider.on('HUNTSMAN_EXIT', () => this.emit('end'))
   }
 
   start() {
     this.spider.queue.add(this.url);
     this.spider.start();
+    this.emit('start');
   }
 
   getNumberOfPages(result) {
