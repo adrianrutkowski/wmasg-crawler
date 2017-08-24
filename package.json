@@ -34,6 +34,7 @@
     "sinon": "^2.3.5"
   },
   "dependencies": {
-    "huntsman": "^0.3.0"
+    "huntsman": "^0.3.0",
+    "kue": "^0.11.6"
   }
 }
