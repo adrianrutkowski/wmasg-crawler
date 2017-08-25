@@ -31,7 +31,7 @@ class TypeValidator {
       throw new Error("Could not find validator for type " + options);
    }
 
-   return this.checks[options](value) ? null : ' is not of type "' + options + '"' ;
+   return this.checks[options](value) ? null : 'is not of type "' + options + '"' ;
   }
 }
 
