@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "huntsman": "^0.3.0",
-    "kue": "^0.11.6"
+    "kue": "^0.11.6",
+    "validate.js": "^0.11.1"
   }
 }
