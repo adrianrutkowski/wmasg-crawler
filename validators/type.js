@@ -24,14 +24,14 @@ class TypeValidator {
     }
 
    if(typeof options  === 'object' && options.clazz) {
-      return value instanceof options.clazz ? null : ' is not of type "' + options.clazz.name + '"';
+      return value instanceof options.clazz ? null : `is not of type ${options.clazz.name}`;
    }
 
    if(!this.checks[options]) {
-      throw new Error("Could not find validator for type " + options);
+      throw new Error(`Could not find validator for type ${options}`);
    }
 
-   return this.checks[options](value) ? null : 'is not of type "' + options + '"' ;
+   return this.checks[options](value) ? null : `is not of type ${options}` ;
   }
 }
 
