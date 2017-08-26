@@ -34,6 +34,7 @@
     "sinon": "^2.3.5"
   },
   "dependencies": {
+    "config": "^1.26.2",
     "huntsman": "^0.3.0",
     "kue": "^0.11.6",
     "validate.js": "^0.11.1"
