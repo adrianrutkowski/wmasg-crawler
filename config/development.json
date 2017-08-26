@@ -1,0 +1,11 @@
+{
+  "Redis": {
+    "host": "redis",
+    "port": 6379
+  },
+  "Job": {
+    "SearchItems": {
+      "concurrency": 5
+    }
+  }
+}
