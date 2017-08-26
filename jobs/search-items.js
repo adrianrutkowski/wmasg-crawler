@@ -1,9 +1,12 @@
-const WMASGSpider = require('../wmasg-spider');
-
+const config = require('config');
 const validate = require('validate.js');
 
+const WMASGSpider = require('../wmasg-spider');
+
+const searchItemsConfig = config.get('Job.SearchItems');
+
 class SearchItems {
-  constructor(concurrency = 5) {
+  constructor(concurrency = searchItemsConfig.concurrency) {
     this.title = 'search items';
     this.concurrency = concurrency;
     this.dataConstraints = { keywords: { presence: true, type: 'Array' }, price: { type: 'Number' }};

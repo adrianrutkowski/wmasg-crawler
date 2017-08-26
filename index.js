@@ -1,6 +1,9 @@
+const config = require('config');
 const kue = require('kue');
 
-const queue = kue.createQueue();
+const queue = kue.createQueue({
+  redis: config.get('Redis')
+});
 
 const validate = require('validate.js');
 
